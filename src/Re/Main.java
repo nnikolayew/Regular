@@ -12,9 +12,8 @@ package Re;
  Иван Иванов|27|+7 (999) 0001111|
  example@yandex.ru
  */
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.io.IOException.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,8 +21,24 @@ public class Main {
     private static final String FILE_DIRECTORY = "C:\\Users\\Myself\\workspace\\Regular\\doc\\in";
 
     protected static String stringCheckResult(String string) {
-        Matcher patternMathcer = Pattern.compile("[А-ЯА-Я\\w]+ [\\d]+ [^[:word:]]|[\\d]+ [[:word:]]|[^[:word:]]").matcher(string);
+        Matcher patternMathcer = Pattern.compile("(\\w+)(\\|)(-)(\\d+)(\\|)(\\+?)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\s*)(\\d)(\\|)(\\w+)").matcher(string);
         return patternMathcer.matches() ? "OK" : "ERROR";
+    }
+
+    public static void task2(String oldPattern, String newPattern, String read, String wright) throws FileNotFoundException{
+        Pattern pattern = Pattern.compile(oldPattern);
+        Matcher matcher = pattern.matcher(read);
+        File newFile = new File(wright);
+        if(!newFile.exists()){
+            throw new FileNotFoundException(newFile.getName());
+        }
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(newFile.getAbsoluteFile()));
+            try{
+                System.out.println(newPattern);
+                out.write(matcher.replaceAll(newPattern));
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -33,6 +48,7 @@ public class Main {
             System.out.println(currentFileString + " - " + stringCheckResult(currentFileString));
         }
         inputFileReader.close();
+        ///vdsvsdvsdvsdvds
     }
 
 }
